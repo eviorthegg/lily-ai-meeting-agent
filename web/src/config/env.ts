@@ -44,8 +44,8 @@ export const apiBaseUrl: string =
   orNull(import.meta.env.VITE_LILY_API_BASE_URL) ??
   pick(stage, {
     local: 'http://localhost:3000',
-    dev: 'https://api-dev.lilybot.dev',
-    prod: 'https://api.lilybot.dev',
+    dev: 'https://api-dev.lily.example.com',
+    prod: 'https://api.lily.example.com',
   });
 
 /**
@@ -61,8 +61,8 @@ export const wsBaseUrl: string =
   orNull(import.meta.env.VITE_LILY_WS_BASE_URL) ??
   pick(stage, {
     local: 'ws://localhost:3001',
-    dev: 'wss://ws-dev.lilybot.dev',
-    prod: 'wss://ws.lilybot.dev',
+    dev: 'wss://ws-dev.lily.example.com',
+    prod: 'wss://ws.lily.example.com',
   });
 
 /**

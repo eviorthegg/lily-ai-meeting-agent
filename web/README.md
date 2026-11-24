@@ -77,8 +77,10 @@ console** and are never committed.
 
 | Environment | Branch   | `VITE_LILY_STAGE` | API                            |
 | ----------- | -------- | ----------------- | ------------------------------ |
-| Staging     | `dev`    | `dev`             | `https://api-dev.lilybot.dev`  |
-| Production  | `main`   | `prod`            | `https://api.lilybot.dev`      |
+| Staging     | `dev`    | `dev`             | `https://api-dev.lily.example.com`  |
+| Production  | `main`   | `prod`            | `https://api.lily.example.com`      |
+
+The `lily.example.com` addresses are placeholders (`example.com` is reserved and can never be registered). Point a deploy at your own domain with `VITE_LILY_API_BASE_URL` and `VITE_LILY_WS_BASE_URL` here, and `LILY_WEB_BASE_URL`, `LILY_API_BASE_URL` and `LILY_WS_BASE_URL` for the backend.
 
 Staging and production are **separate Amplify applications**, not two branches of one app.
 Sharing an app means sharing the domain, the redirect rules and the environment-variable
