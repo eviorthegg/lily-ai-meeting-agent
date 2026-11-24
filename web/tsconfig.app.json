@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    // The base config targets Node (NodeNext + ES2023 lib only). A browser bundle
+    // needs DOM types and bundler-style resolution, so both halves of the module
+    // pair are overridden together — TypeScript rejects changing only one.
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+
+    "rootDir": "./src",
+
+    // Must stay in step with resolve.alias in vite.config.ts — tsc and the
+    // bundler resolve independently and will disagree silently otherwise.
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
+    // `composite` is inherited from the base and forbids `noEmit`, so instead of
+    // disabling emit we emit declarations only. Vite performs the real
+    // transpilation; tsc's job here is purely to typecheck.
+    //
+    // The output lands under node_modules/.tmp deliberately: these .d.ts files
+    // are throwaway, and every tool in the repo already ignores node_modules.
+    // A top-level directory would need adding to the root eslint ignores and
+    // the root .gitignore to stop generated code being linted and committed.
+    "emitDeclarationOnly": true,
+    "sourceMap": false,
+    "outDir": "./node_modules/.tmp/types"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

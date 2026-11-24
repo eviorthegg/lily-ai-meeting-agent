@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+
+   CONTRAST NOTE — read before using a green anywhere.
+
+   --neon (#00ff85) is 1.35:1 against white. It can never carry text, an icon
+   that means something, or a border that has to be seen on a light surface. It
+   exists for glows, pulse haloes, dots and strokes on --ink, where it measures
+   16.9:1 and is the right colour.
+
+   --green (#00994a) is 3.71:1 against white. That clears WCAG's 3:1 bar for
+   graphical objects and large text (>=24px, or >=18.66px semibold) but NOT the
+   4.5:1 bar for body-sized text.
+
+   --green-deep (#007a3b) is 5.46:1 against white and is therefore what every
+   small green text element actually uses — the 11.5px mono eyebrows and inline
+   links included. The spec fixed --green as the green-on-white token; it is
+   kept at exactly that value and used wherever it measures adequate, and this
+   one derived shade covers the small-text case it cannot.
+
+   --grey (#767a80) has the same problem, measured rather than assumed: 4.32:1
+   on white, which is under the 4.5:1 floor for body text — and grey carries
+   most of the copy on this page. --grey-text (#6f7379) is seven points darker
+   per channel and visually near-identical. It is set against --paper, not
+   --white: paper is the darker of the two backgrounds grey sits on, so a value
+   tuned on white alone still fails inside every alt section. It measures
+   4.77:1 on white and 4.61:1 on paper. Tailwind's `grey` utilities resolve to
+   --grey-text for exactly this reason; --grey keeps its specified value for
+   non-text use.
+
+   Every ratio above was measured against the rendered DOM, not estimated.
+   --------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --white: #ffffff;
+    --paper: #fbfbfc;
+    --ink: #0a0b0c;
+    --grey: #767a80;
+    --grey-text: #6f7379;
+    --hair: #eceef0;
+    --neon: #00ff85;
+    --green: #00994a;
+    --green-deep: #007a3b;
+
+    --bloom: rgba(0, 255, 133, 0.16);
+  }
+
+  /* Dark surfaces re-point the text tokens rather than every component
+     re-declaring its own colours. Neon becomes legal for accents here, and
+     grey inverts to #8b9199 — 6.20:1 on ink. */
+  .on-ink {
+    --grey: #8b9199;
+    --grey-text: #8b9199;
+    --hair: rgba(255, 255, 255, 0.1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-white text-ink antialiased;
+    font-family: theme('fontFamily.sans');
+    font-weight: 400;
+    font-synthesis-weight: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+    letter-spacing: theme('letterSpacing.headline');
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  /* One visible focus treatment for the whole app. Never removed, only styled. */
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .on-ink :focus-visible {
+    outline-color: var(--neon);
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--white);
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply font-mono text-eyebrow lowercase;
+    color: var(--green-deep);
+  }
+
+  .on-ink .eyebrow {
+    /* Neon is correct on ink and clears 16.9:1 even at 11.5px. */
+    color: var(--neon);
+  }
+
+  .display {
+    @apply text-[2.5rem] sm:text-[3.5rem] lg:text-[4.25rem];
+    letter-spacing: theme('letterSpacing.display');
+    line-height: 1.03;
+  }
+
+  .lede {
+    @apply max-w-measure text-body-sm sm:text-body;
+    font-weight: 300;
+    color: var(--grey-text);
+  }
+
+  .hairline {
+    border: 1px solid var(--hair);
+  }
+
+  .card {
+    @apply rounded-card bg-white;
+    border: 1px solid var(--hair);
+  }
+
+  .data {
+    @apply font-mono text-[13px];
+    letter-spacing: 0.01em;
+  }
+
+  /* The one dark treatment: flat ink plus a single wide radial bloom. Repeating
+     this as a utility keeps every dark section optically identical. */
+  .slab {
+    @apply on-ink relative overflow-hidden bg-ink text-white;
+  }
+
+  .slab::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background: radial-gradient(
+      60% 55% at 50% 12%,
+      var(--bloom) 0%,
+      rgba(0, 255, 133, 0.05) 38%,
+      transparent 68%
+    );
+  }
+
+  .slab > * {
+    @apply relative;
+  }
+
+  /* SVG elements have no layout box, so a percentage transform-origin resolves
+     against the whole viewBox unless the box is redefined. Without this the
+     hub ring would scale from the top-left corner of the diagram. */
+  .ring-breathe {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* Set once here rather than on every path element. */
+  .animate-dash {
+    stroke-dasharray: 6 94;
+  }
+}
+
+@layer utilities {
+  /* prefers-reduced-motion must REMOVE the pulses, not slow them down. Anything
+     tagged .motion-only is structurally absent when the user has asked for less
+     motion — display:none also stops the animation from running at all, which a
+     duration override would not. */
+  @media (prefers-reduced-motion: reduce) {
+    .motion-only {
+      display: none !important;
+    }
+
+    .motion-safe-anim {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@lily/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "start": "node dist/main.js",
+    "demo": "node dist/main.js"
+  },
+  "dependencies": {
+    "@lily/shared": "*",
+    "playwright-core": "^1.62.0",
+    "ws": "^8.18.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.13"
+  }
+}

@@ -1,0 +1,49 @@
+# AWS Amplify Hosting — build spec for the Lily web frontend.
+#
+# HOSTING ONLY. This app does not use Amplify's backend, DataStore, GraphQL
+# tooling or Cognito. Authentication is our own JWT layer against the Lily API.
+# Nothing here should ever grow an `amplify add` step.
+#
+# Environment variables (VITE_LILY_*) are configured per branch in the Amplify
+# console and are never committed. See web/README.md for which branch maps to
+# which environment.
+
+version: 1
+applications:
+  - appRoot: web
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            # Install from the monorepo root: web is an npm workspace and
+            # resolves @lily/* and its hoisted toolchain from the root tree.
+            # `npm ci` rather than `npm install` so a deploy can never silently
+            # resolve a different dependency version than the one committed.
+            - cd ..
+            - npm ci
+            - cd web
+        build:
+          commands:
+            # Typecheck before bundling. Vite strips types without checking
+            # them, so without this a type error would deploy clean.
+            - npx tsc -b .
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - ../node_modules/**/*
+          - node_modules/**/*
+
+# SPA rewrite. Configure in the Amplify console under Rewrites and redirects,
+# or apply this rule via the CLI — Amplify does not read redirects from this
+# file:
+#
+#   source:  /<*>
+#   target:  /index.html
+#   type:    200 (Rewrite)
+#
+# Without it, a deep link such as /signup or /verify-email returns 404 on a
+# hard refresh, because only index.html exists on the origin.

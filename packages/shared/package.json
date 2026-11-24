@@ -1,0 +1,26 @@
+{
+  "name": "@lily/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./config": "./dist/config/index.js",
+    "./providers": "./dist/providers/index.js",
+    "./protocol": "./dist/protocol/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-apigatewaymanagementapi": "^3.716.0",
+    "@aws-sdk/client-ec2": "^3.716.0",
+    "@aws-sdk/client-secrets-manager": "^3.716.0",
+    "@aws-sdk/client-sesv2": "^3.716.0",
+    "mongodb": "^6.12.0",
+    "zod": "^3.24.1"
+  }
+}

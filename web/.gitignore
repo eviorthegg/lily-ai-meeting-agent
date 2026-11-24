@@ -1,0 +1,4 @@
+# Vite's dev-server cache. The root .gitignore already covers dist/ and
+# *.tsbuildinfo; `tsc -b` output goes to node_modules/.tmp, which is ignored by
+# every tool in the repo without needing a new rule.
+.vite/

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    // Build-time config files run in Node but are authored as ESM and resolved by
+    // Vite, so they use bundler resolution rather than the base's NodeNext.
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
+
+    "rootDir": ".",
+    "emitDeclarationOnly": true,
+    "sourceMap": false,
+    "outDir": "./node_modules/.tmp/types-node"
+  },
+  "include": ["vite.config.ts", "tailwind.config.ts"]
+}

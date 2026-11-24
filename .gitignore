@@ -1,0 +1,32 @@
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.aws-sam/
+coverage/
+.vite/
+
+# Secrets — nothing resembling a credential is ever committed.
+# The only supported paths are AWS Secrets Manager (dev/prod) and
+# .env.local (local stage, developer machine only). See SECURITY.md.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.mobileprovision
+secrets.json
+
+# Local-stage side effects. The whole of /tmp is scratch: generated .eml files,
+# throwaway drivers used to exercise the local API by hand, nothing durable.
+/.lily-local/
+/tmp/
+mongo-data/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

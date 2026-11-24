@@ -1,0 +1,14 @@
+{
+  "name": "@lily/emails",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "preview": "node dist/preview.js"
+  },
+  "dependencies": {
+    "@lily/shared": "*"
+  }
+}

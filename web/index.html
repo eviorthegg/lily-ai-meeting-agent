@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>Lily — an AI teammate in your meetings</title>
+    <meta
+      name="description"
+      content="Lily joins your meeting, follows the conversation, and hands work to each person's own coding agent on their own machine."
+    />
+    <meta name="theme-color" content="#ffffff" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lily — an AI teammate in your meetings" />
+    <meta
+      property="og:description"
+      content="One bot in the meeting. Every agent runs on its owner's machine. Nothing is uploaded."
+    />
+
+    <!--
+      No third-party tags here. GA4 is injected by src/lib/analytics/ga4.ts only
+      after the visitor accepts the analytics category — putting the tag in this
+      file would load it before any consent decision existed.
+    -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
